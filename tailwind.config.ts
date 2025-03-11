@@ -1,14 +1,15 @@
-import withMT from '@material-tailwind/react/utils/withMT';
-
 const config = {
   content: [
-    './utils/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
+
     './components/**/*.{js,ts,jsx,tsx,mdx}',
+
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+
+    './node_modules/@material-tailwind/react/**/*.{js,ts,jsx,tsx}',
   ],
-  theme: {},
-  plugins: [require('@tailwindcss/typography')],
+
+  plugins: [],
 };
 
-export default withMT(config);
+export default config;
