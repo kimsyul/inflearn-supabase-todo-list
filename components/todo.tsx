@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { updateTodo, deleteTodo } from 'actions/todo-actions';
 import { queryClient } from 'config/ReactQueryProvider';
 import { Loader } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Todo({ todo }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -35,9 +35,6 @@ export default function Todo({ todo }) {
         checked={completed}
         className="mr-2"
         onCheckedChange={async (checked) => {
-          if (checked === false) {
-            await setCompletedAt(new Date(''));
-          }
           await setCompleted(checked as boolean);
           await updateTodoMutation.mutate();
         }}
