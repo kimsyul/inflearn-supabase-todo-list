@@ -26,6 +26,8 @@ export default function Todo({ todo }) {
     },
   });
 
+  const createdAt = new Date(todo.created_at).toLocaleString();
+
   return (
     <div className="w-full flex items-center gap-1">
       <Checkbox
@@ -45,6 +47,7 @@ export default function Todo({ todo }) {
       ) : (
         <p className={`flex-1 ${completed && 'line-through'}`}>{title}</p>
       )}
+      <p>{createdAt}</p>
       {isEditing ? (
         <Button
           onClick={async () => {

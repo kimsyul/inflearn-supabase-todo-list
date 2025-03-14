@@ -54,6 +54,7 @@ export async function updateTodo(todo: TodoRowUpdate) {
     .update({
       ...todo,
       updated_at: new Date().toISOString(),
+      completed_at: new Date().toISOString(),
     })
     // 대상 지정
     .eq('id', todo.id);
