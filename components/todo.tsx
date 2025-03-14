@@ -1,7 +1,7 @@
 import { Button } from '*/components/ui/button';
 import { Checkbox } from '*/components/ui/checkbox';
 import { useMutation } from '@tanstack/react-query';
-import { updateTodo } from 'actions/todo-actions';
+import { updateTodo, deleteTodo } from 'actions/todo-actions';
 import { queryClient } from 'config/ReactQueryProvider';
 import { Loader } from 'lucide-react';
 import { useState } from 'react';
@@ -15,6 +15,13 @@ export default function Todo({ todo }) {
     mutationFn: () => updateTodo({ id: todo.id, title, completed }),
     onSuccess: () => {
       setIsEditing(false);
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+
+  const deleteTodoMutation = useMutation({
+    mutationFn: () => deleteTodo(todo.id),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
     },
   });
@@ -51,8 +58,8 @@ export default function Todo({ todo }) {
           <i className="fas fa-pen" />
         </Button>
       )}
-      <Button size="icon">
-        <i className="fas fa-trash" />
+      <Button size="icon" onClick={() => deleteTodoMutation.mutate()}>
+        {deleteTodoMutation.isPending ? <Loader /> : <i className="fas fa-trash" />}
       </Button>
     </div>
   );
