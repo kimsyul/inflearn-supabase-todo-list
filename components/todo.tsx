@@ -10,9 +10,10 @@ export default function Todo({ todo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [completed, setCompleted] = useState(todo.completed);
   const [title, setTitle] = useState(todo.title);
+  const [completedAt, setCompletedAt] = useState(todo.completed_at);
 
   const updateTodoMutation = useMutation({
-    mutationFn: () => updateTodo({ id: todo.id, title, completed }),
+    mutationFn: () => updateTodo({ id: todo.id, title, completed, completed_at: completedAt }),
     onSuccess: () => {
       setIsEditing(false);
       queryClient.invalidateQueries({ queryKey: ['todos'] });
@@ -34,6 +35,9 @@ export default function Todo({ todo }) {
         checked={completed}
         className="mr-2"
         onCheckedChange={async (checked) => {
+          if (checked === false) {
+            await setCompletedAt(new Date(''));
+          }
           await setCompleted(checked as boolean);
           await updateTodoMutation.mutate();
         }}
